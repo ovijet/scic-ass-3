@@ -62,7 +62,7 @@ const Banner = () => {
                 {/* Left */}
                 <div>
 
-                  <span className="inline-block bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold mb-5">
+                  <span className="inline-block bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-5">
                     ✨ Learn • Share • Grow
                   </span>
 
@@ -70,7 +70,7 @@ const Banner = () => {
                     {slide.title}
                   </h1>
 
-                  <h2 className="text-2xl text-green-600 font-semibold mt-4">
+                  <h2 className="text-2xl text-blue-600 font-semibold mt-4">
                     {slide.subtitle}
                   </h2>
 
@@ -81,14 +81,14 @@ const Banner = () => {
                   <div className="flex flex-wrap gap-5 mt-10">
 
                     <Link href="/public-lessons">
-                      <button className="btn btn-success rounded-full px-8 text-white">
+                      <button className="btn btn-primary rounded-full px-8 text-white">
                         Explore Lessons
                         <FaArrowRight />
                       </button>
                     </Link>
 
                     <Link href="/dashboard/addLesson">
-                      <button className="btn btn-outline btn-success rounded-full px-8">
+                      <button className="btn btn-outline btn-primary rounded-full px-8">
                         Share Lesson
                       </button>
                     </Link>
@@ -100,7 +100,7 @@ const Banner = () => {
                   <div className="grid grid-cols-3 gap-5 mt-12">
 
                     <div className="bg-white rounded-2xl shadow-lg p-5 text-center">
-                      <FaBookOpen className="text-3xl text-green-600 mx-auto mb-3" />
+                      <FaBookOpen className="text-3xl text-blue-600 mx-auto mb-3" />
                       <h3 className="text-3xl font-bold">500+</h3>
                       <p className="text-gray-500 text-sm">Lessons</p>
                     </div>
@@ -125,7 +125,7 @@ const Banner = () => {
 
                 <div className="relative">
 
-                  <div className="absolute -top-8 -left-8 w-32 h-32 bg-green-300 rounded-full blur-3xl opacity-40"></div>
+                  <div className="absolute -top-8 -left-8 w-32 h-32 bg-blue-300 rounded-full blur-3xl opacity-40"></div>
 
                   <div className="absolute bottom-0 right-0 w-40 h-40 bg-blue-300 rounded-full blur-3xl opacity-30"></div>
 

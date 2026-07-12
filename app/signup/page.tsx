@@ -211,9 +211,6 @@ const RegisterPage: React.FC = () => {
                     <ListBox.Item id="user" textValue="user" className="px-3 py-2 text-sm rounded-lg hover:bg-orange-50 dark:hover:bg-orange-950/30 text-slate-700 dark:text-slate-200 cursor-pointer">
                       User
                     </ListBox.Item>
-                    <ListBox.Item id="admin" textValue="admin" className="px-3 py-2 text-sm rounded-lg hover:bg-orange-50 dark:hover:bg-orange-950/30 text-slate-700 dark:text-slate-200 cursor-pointer">
-                      Admin
-                    </ListBox.Item>
                   </ListBox>
                 </Select.Popover>
               </Select>

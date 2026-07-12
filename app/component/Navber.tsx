@@ -19,14 +19,16 @@ const Navbar = () => {
 
   // Navigation Setup
   const baseLinks = [
-    { name: "Explore", href: "/" },
-    { name: "About", href: "/about" },
+    { name: "Home", href: "/" },
+    { name: "Explore", href: "/explore" },
     { name: "Contact", href: "/contact" },
   ];
 
   const userLinks = user
     ? [
-        { name: "My Profile", href: "/dashboard/user/profile" },
+      { name: "Add items", href: "/add-item" },
+      { name: "Manage items", href: "/dashboard/user/manage-items" },
+      { name: "My Profile", href: "/dashboard/user/profile" },
       ]
     : [];
 
@@ -201,13 +203,7 @@ const Navbar = () => {
                         <BiUser className="text-lg text-gray-400" /> Profile
                       </Link>
 
-                      <Link
-                        href={role === "admin" ? "/dashboard/admin/home" : "/dashboard/user"}
-                        className="flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-xl transition"
-                        onClick={() => setIsDropdownOpen(false)}
-                      >
-                        <BiGridAlt className="text-lg text-gray-400" /> Dashboard
-                      </Link>
+                     
 
                       <hr className="border-gray-100 my-1" />
 
