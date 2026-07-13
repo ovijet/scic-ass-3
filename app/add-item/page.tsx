@@ -13,9 +13,9 @@ export default function AddBookPage() {
   const [imageUrl, setImageUrl] = useState("");
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]; 
+    const file = e.target.files?.[0];
     if (!file) return;
 
     if (file.size > 5 * 1024 * 1024) {
@@ -47,14 +47,13 @@ export default function AddBookPage() {
     }
   };
 
-  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!imageUrl) {
       toast.error("Please upload a book cover image");
       return;
     }
-    
+
     setLoading(true);
 
     const form = new FormData(e.currentTarget);
@@ -76,7 +75,7 @@ export default function AddBookPage() {
       createdAt: new Date(),
     };
 
-    console.log(bookData, 'dddddddddd');
+    console.log(bookData, "dddddddddd");
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/addBook`, {
@@ -101,19 +100,18 @@ export default function AddBookPage() {
   return (
     <div className="min-h-screen bg-gray-50/60 py-12 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-3xl mx-auto bg-white border border-gray-100 rounded-2xl shadow-xl shadow-gray-100/40 p-8 sm:p-10">
-        
         {/* Header section */}
         <div className="mb-10">
           <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
             Add New Book
           </h1>
           <p className="mt-2 text-sm text-gray-500">
-            Share your favorite books, novels, or educational resources with the community.
+            Share your favorite books, novels, or educational resources with the
+            community.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
-          
           {/* Title & Author Grid */}
           <div className="grid sm:grid-cols-2 gap-6">
             {/* Book Title */}
@@ -179,7 +177,9 @@ export default function AddBookPage() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
                   />
                 ) : (
-                  <span className="text-2xl text-gray-400 group-hover:text-purple-500 transition-colors">+</span>
+                  <span className="text-2xl text-gray-400 group-hover:text-purple-500 transition-colors">
+                    +
+                  </span>
                 )}
               </label>
 
@@ -245,19 +245,17 @@ export default function AddBookPage() {
               />
             </div>
           </div>
-
           {/* Form Action Button */}
           <div className="pt-4">
             <Button
               type="submit"
-              disabled={loading || uploading}
+              isDisabled={loading || uploading} 
               isLoading={loading}
               className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm py-6 rounded-xl shadow-lg shadow-purple-500/10 transition-all tracking-wider"
             >
               {loading ? "Adding..." : "ADD BOOK 📚"}
             </Button>
           </div>
-
         </form>
       </div>
     </div>
