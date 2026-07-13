@@ -2,16 +2,16 @@ import React from "react";
 import { Button, Link } from "@heroui/react";
 
 export const Explore = async () => {
-  // ডাটা ফেচিং (সার্ভার সাইড)
+ 
   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/addBook`, {
-    cache: "no-store", // প্রতিবার নতুন ডাটা পাওয়ার জন্য
+    cache: "no-store",
   });
   const books = await res.json();
 
   return (
     <div className="min-h-screen bg-gray-50/50 py-12 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-7xl mx-auto">
-        {/* হেডার সেকশন */}
+       
         <div className="mb-10 text-center sm:text-left">
           <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
             Explore Books 📚
@@ -22,7 +22,7 @@ export const Explore = async () => {
           </p>
         </div>
 
-        {/* গ্রিড লেআউট */}
+      
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
           {books?.map((book: any) => (
             <div

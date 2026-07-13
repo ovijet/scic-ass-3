@@ -66,17 +66,18 @@ const RegisterPage: React.FC = () => {
     }
   };
 
-  // ✅ Google Social Login Integration
-  const handleGoogleSignUp = async () => {
-    try {
-      await authClient.signIn.social({
-        provider: "google",
-        callbackURL: "/dashboard",
-      });
-    } catch (err) {
-      console.error("Google sign up failed", err);
-    }
-  };
+ const GoogleSignUp=async()=>{
+      const {data,error}=await authClient.signIn.social({
+        provider:'google'
+      })
+     if(error){
+       toast.error(error.message)
+     }
+     if(data){
+       toast.success('Google Login successful')
+       router.push("/")
+     }
+   }
 
   // Animation variants
   const containerVariants = {
@@ -247,7 +248,7 @@ const RegisterPage: React.FC = () => {
           {/* Google Auth Integration */}
           <div className="px-7 pb-6">
             <Button
-              onClick={handleGoogleSignUp}
+              onClick={GoogleSignUp}
               variant="bordered"
               className="w-full h-12 flex items-center justify-center gap-2.5 rounded-xl border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-700 dark:text-slate-300 text-sm font-medium transition"
             >

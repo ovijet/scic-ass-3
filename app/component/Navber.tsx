@@ -27,8 +27,8 @@ const Navbar = () => {
   const userLinks = user
     ? [
       { name: "Add items", href: "/add-item" },
-      { name: "Manage items", href: "/dashboard/user/manage-items" },
-      { name: "My Profile", href: "/dashboard/user/profile" },
+      { name: "Manage items", href: "/manage-item" },
+      { name: "My Profile", href: "/profile" },
       ]
     : [];
 

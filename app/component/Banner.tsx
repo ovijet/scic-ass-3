@@ -80,14 +80,14 @@ const Banner = () => {
 
                   <div className="flex flex-wrap gap-5 mt-10">
 
-                    <Link href="/public-lessons">
+                    <Link href="/explore">
                       <button className="btn btn-primary rounded-full px-8 text-white">
                         Explore Lessons
                         <FaArrowRight />
                       </button>
                     </Link>
 
-                    <Link href="/dashboard/addLesson">
+                    <Link href="add-item">
                       <button className="btn btn-outline btn-primary rounded-full px-8">
                         Share Lesson
                       </button>
