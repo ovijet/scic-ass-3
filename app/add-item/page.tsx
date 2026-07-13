@@ -249,8 +249,8 @@ export default function AddBookPage() {
           <div className="pt-4">
             <Button
               type="submit"
-              isDisabled={loading || uploading} 
-              isLoading={loading}
+              isDisabled={loading || uploading}
+           
               className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm py-6 rounded-xl shadow-lg shadow-purple-500/10 transition-all tracking-wider"
             >
               {loading ? "Adding..." : "ADD BOOK 📚"}
