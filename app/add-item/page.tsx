@@ -13,9 +13,9 @@ export default function AddBookPage() {
   const [imageUrl, setImageUrl] = useState("");
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
+  
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]; 
     if (!file) return;
 
     if (file.size > 5 * 1024 * 1024) {
@@ -47,7 +47,8 @@ export default function AddBookPage() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!imageUrl) {
       toast.error("Please upload a book cover image");
@@ -75,7 +76,7 @@ export default function AddBookPage() {
       createdAt: new Date(),
     };
 
-    console.log(bookData,'dddddddddd');
+    console.log(bookData, 'dddddddddd');
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/addBook`, {
