@@ -4,9 +4,21 @@ import { AlertDialog, Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
-export function DeleteModal({ book }) {
+// 1. book অবজেক্টের জন্য ইন্টারফেস ডিফাইন করা হলো
+interface BookType {
+  _id: string;
+  roomName?: string;
+  [key: string]: any; 
+}
 
-    const router=useRouter()
+// 2. মডালের প্রপসের টাইপ ডিফাইন করা হলো
+interface DeleteModalProps {
+  book: BookType;
+}
+
+export function DeleteModal({ book }: DeleteModalProps) {
+
+  const router = useRouter();
 
   const {
     _id,
@@ -14,7 +26,6 @@ export function DeleteModal({ book }) {
   } = book || {};
 
   const handleDelete = async () => {
-
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/addBook/${_id}`,
@@ -24,12 +35,11 @@ export function DeleteModal({ book }) {
       );
 
       const data = await res.json();
-
       console.log(data);
 
       if (res.ok) {
-      toast('Delete Room')
-        router.push('/explore')
+        toast('Delete Room');
+        router.push('/explore');
       }
 
     } catch (error) {
@@ -39,7 +49,6 @@ export function DeleteModal({ book }) {
 
   return (
     <AlertDialog>
-
       <Button variant="danger">
         Delete
       </Button>
@@ -47,12 +56,10 @@ export function DeleteModal({ book }) {
       <AlertDialog.Backdrop>
         <AlertDialog.Container>
           <AlertDialog.Dialog className="sm:max-w-[400px]">
-
             <AlertDialog.CloseTrigger />
 
             <AlertDialog.Header>
               <AlertDialog.Icon status="danger" />
-
               <AlertDialog.Heading>
                 Delete room permanently?
               </AlertDialog.Heading>
@@ -67,7 +74,6 @@ export function DeleteModal({ book }) {
             </AlertDialog.Body>
 
             <AlertDialog.Footer>
-
               <Button slot="close" variant="tertiary">
                 Cancel
               </Button>
@@ -79,9 +85,7 @@ export function DeleteModal({ book }) {
               >
                 Delete
               </Button>
-
             </AlertDialog.Footer>
-
           </AlertDialog.Dialog>
         </AlertDialog.Container>
       </AlertDialog.Backdrop>

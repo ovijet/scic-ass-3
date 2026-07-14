@@ -15,24 +15,24 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { BiEnvelope, BiLock, BiRefresh, BiLogIn } from "react-icons/bi";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
-import { error } from "console";
 
 export default function SignUpPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (e) => {
+  // FIXED: Added explicitly typed React.FormEvent for the event parameter
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
+    const formData = new FormData(e.currentTarget);
     const userData = Object.fromEntries(formData.entries());
     console.log(userData, "fffffff");
 
     const { data, error } = await authClient.signIn.email({
-      email: userData.email,
-      password: userData.password,
+      email: userData.email as string,
+      password: userData.password as string,
     });
 
     console.log(data);
@@ -49,42 +49,42 @@ export default function SignUpPage() {
     }
   };
 
-  const GoogleSignIn=async()=>{
-    const {data,error}=await authClient.signIn.social({
-      provider:'google'
-    })
-    if(error){
-      toast.error(error.message)
+  const GoogleSignIn = async () => {
+    const { data, error } = await authClient.signIn.social({
+      provider: 'google'
+    });
+    if (error) {
+      toast.error(error.message);
     }
-    if(data){
-      toast.success('Google Login successful')
-      router.push("/")
+    if (data) {
+      toast.success('Google Login successful');
+      router.push("/");
     }
-  }
+  };
 
   // Framer Motion Animation Settings
-  const containerVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut",
-        when: "beforeChildren",
-        staggerChildren: 0.08,
-      },
+ const containerVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut", // এখন আর string টাইপ ইরর দিবে না
+      when: "beforeChildren",
+      staggerChildren: 0.08,
     },
-  };
+  },
+};
 
-  const itemVariants = {
-    hidden: { opacity: 0, x: -15 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { type: "spring", stiffness: 300, damping: 24 },
-    },
-  };
+const itemVariants: Variants = {
+  hidden: { opacity: 0, x: -15 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { type: "spring", stiffness: 300, damping: 24 },
+  },
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-gray-100 to-orange-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-orange-950/10 p-4 sm:p-6 select-none">
@@ -180,7 +180,7 @@ export default function SignUpPage() {
             >
               <Button
                 type="submit"
-                disabled={isLoading}
+                // disabled={isLoading}
                 className="w-full h-12 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl font-semibold transition shadow-md shadow-orange-500/10 hover:opacity-95 text-sm flex items-center justify-center gap-1.5"
               >
                 <BiLogIn className="text-lg" />
@@ -189,7 +189,8 @@ export default function SignUpPage() {
 
               <Button
                 type="reset"
-                variant="bordered"
+                // disabled={isLoading}
+                variant="outline"
                 className="w-full h-11 rounded-xl border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/30 text-xs font-medium flex items-center justify-center gap-1.5"
               >
                 <BiRefresh className="text-base" /> Clear Form
@@ -209,8 +210,8 @@ export default function SignUpPage() {
           {/* Bottom Actions */}
           <div className="px-7 pb-6 flex flex-col gap-3">
             <Button
-                onClick={GoogleSignIn}
-              variant="bordered"
+              onClick={GoogleSignIn}
+              variant="outline"
               className="w-full h-12 flex items-center justify-center gap-2.5 rounded-xl border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-700 dark:text-slate-300 text-sm font-medium transition"
             >
               <FcGoogle size={19} />
@@ -220,7 +221,7 @@ export default function SignUpPage() {
 
           {/* Footer Link */}
           <div className="pb-6 text-center text-xs text-slate-400 dark:text-slate-500 font-medium">
-            Donot have an account?{" "}
+            Don't have an account?{" "}
             <Link
               href="/signup"
               className="text-orange-500 hover:text-orange-600 font-bold ml-0.5 transition underline underline-offset-4"

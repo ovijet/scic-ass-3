@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import { Avatar } from "@heroui/react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BiChevronDown, BiLogOut, BiUser, BiGridAlt } from "react-icons/bi";
+import { BiChevronDown, BiLogOut, BiUser } from "react-icons/bi";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -15,7 +15,9 @@ const Navbar = () => {
   // Auth Client state management
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
-  const role = user?.role || "user";
+  
+  // FIXED: Safely access role if it exists on your user object, defaulting to "user"
+  const role = (user as any)?.role || "user";
 
   // Navigation Setup
   const baseLinks = [
@@ -26,19 +28,13 @@ const Navbar = () => {
 
   const userLinks = user
     ? [
-      { name: "Add items", href: "/add-item" },
-      { name: "Manage items", href: "/manage-item" },
-      { name: "My Profile", href: "/profile" },
+        { name: "Add items", href: "/add-item" },
+        { name: "Manage items", href: "/manage-item" },
+        { name: "My Profile", href: "/profile" },
       ]
     : [];
 
-  const adminLinks = user?.role === "admin"
-    ? [
-        { name: "Dashboard", href: "/dashboard/admin" },
-      ]
-    : [];
-
-  const navLinks = [...baseLinks, ...userLinks, ...adminLinks];
+  const navLinks = [...baseLinks, ...userLinks];
 
   const handleSignOut = async () => {
     const { error } = await authClient.signOut();
@@ -151,7 +147,8 @@ const Navbar = () => {
               className="flex items-center gap-2 border border-gray-200/80 rounded-full p-1 pr-3 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200"
             >
               <Avatar size="sm" className="w-7 h-7 ring-2 ring-gray-100 flex-shrink-0">
-                <Avatar.Image src={user?.image} referrerPolicy="no-referrer" />
+                {/* FIXED: Turn null values into undefined to pass TS validation */}
+                <Avatar.Image src={user?.image ?? undefined} referrerPolicy="no-referrer" />
                 <Avatar.Fallback className="bg-orange-100 text-orange-600 font-bold text-xs">
                   {user?.name?.charAt(0).toUpperCase()}
                 </Avatar.Fallback>
@@ -202,8 +199,6 @@ const Navbar = () => {
                       >
                         <BiUser className="text-lg text-gray-400" /> Profile
                       </Link>
-
-                     
 
                       <hr className="border-gray-100 my-1" />
 

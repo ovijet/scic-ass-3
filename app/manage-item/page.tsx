@@ -2,11 +2,25 @@ import React from "react";
 import Link from "next/link";
 import { DeleteModal } from "../component/DeleteModal";
 
+// FIXED: Define Book interface for proper TypeScript validation
+interface Book {
+  _id: string;
+  title: string;
+  author: string;
+  category: string;
+  image: string;
+  userName: string;
+  userEmail: string;
+}
+
 const ManageItem = async () => {
+  // Fetching data from API
   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/addBook`, {
     cache: "no-store",
   });
-  const books = await res.json();
+  
+  // FIXED: Explicitly typecast the array of books
+  const books: Book[] = await res.json();
 
   return (
     <div className="max-w-7xl mx-auto px-5 py-8">
@@ -62,7 +76,7 @@ const ManageItem = async () => {
                       </div>
                     </div>
                   </div>
-                  ui
+                  {/* FIXED: Removed the accidental 'ui' text from here */}
                 </td>
 
                 {/* Author */}
@@ -101,12 +115,6 @@ const ManageItem = async () => {
 
                     {/* Delete Button */}
                     <DeleteModal book={book} />
-                    {/* <button
-                      className="btn btn-sm bg-rose-50 hover:bg-rose-100 border-none text-rose-600 font-medium normal-case px-4 rounded-xl"
-                      
-                    >
-                      Delete
-                    </button> */}
                   </div>
                 </td>
               </tr>
