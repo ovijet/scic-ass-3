@@ -34,6 +34,9 @@ export default function AddBookPage() {
         body: formData,
       });
 
+
+      console.log(apiKey,'ffffffffffffff')
+
       const data = await res.json();
       if (data.success) {
         setImageUrl(data.data.url);

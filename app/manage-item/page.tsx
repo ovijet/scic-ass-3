@@ -106,12 +106,12 @@ const ManageItem = async () => {
                       View
                     </Link>
                     {/* Edit Button */}
-                    <Link
+                    {/* <Link
                       href={`/manage-items/edit/${book._id}`}
                       className="btn btn-sm bg-amber-50 hover:bg-amber-100 border-none text-amber-700 font-medium normal-case px-4 rounded-xl"
                     >
                       Edit
-                    </Link>
+                    </Link> */}
 
                     {/* Delete Button */}
                     <DeleteModal book={book} />

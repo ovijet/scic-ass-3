@@ -23,7 +23,7 @@ const Navbar = () => {
   const baseLinks = [
     { name: "Home", href: "/" },
     { name: "Explore", href: "/explore" },
-    { name: "Contact", href: "/contact" },
+    { name: "Blog", href: "/blog" },
   ];
 
   const userLinks = user
