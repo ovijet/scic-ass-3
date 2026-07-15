@@ -38,7 +38,7 @@ export function DeleteModal({ book }: DeleteModalProps) {
       console.log(data);
 
       if (res.ok) {
-        toast('Delete Room');
+        toast('Delete Books');
         router.push('/explore');
       }
 
