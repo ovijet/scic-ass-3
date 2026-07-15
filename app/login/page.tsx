@@ -44,7 +44,7 @@ export default function SignUpPage() {
     }
 
     if (data) {
-      alert("Login successful");
+      toast.success("Login successful");
       router.push("/");
     }
   };

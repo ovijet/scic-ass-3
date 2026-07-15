@@ -89,7 +89,7 @@ export default function AddBookPage() {
 
       const data = await res.json();
       if (data.insertedId) {
-        alert("Book Added Successfully");
+        toast("Book Added Successfully");
         router.push("/explore");
       }
     } catch (error) {

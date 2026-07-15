@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -12,12 +12,9 @@ const Navbar = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // Auth Client state management
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
-  
   const role = (user as any)?.role || "user";
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -29,7 +26,6 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Navigation Links
   const baseLinks = [
     { name: "Home", href: "/" },
     { name: "Explore", href: "/explore" },
@@ -55,27 +51,23 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm select-none">
-     
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        
-        {/* Left Side: Logo & Hamburger */}
+        {/* Logo & Hamburger */}
         <div className="flex items-center gap-2">
-          {/* Mobile Hamburger Button */}
-          <button 
-            onClick={() => setIsMobileOpen(!isMobileOpen)} 
+          <button
+            onClick={() => setIsMobileOpen(!isMobileOpen)}
             aria-label="Toggle Menu"
             className="lg:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-xl transition-all"
           >
             {isMobileOpen ? <BiX className="text-2xl" /> : <BiMenu className="text-2xl" />}
           </button>
-          
-          {/* Brand Logo */}
+
           <Link href="/" className="text-xl font-bold tracking-tight text-gray-900 hover:opacity-90 transition">
             BookStore<span className="text-blue-600">.</span>
           </Link>
         </div>
 
-        {/* Center Side: Desktop Navigation Links (Large Screen Only) */}
+        {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-1">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
@@ -95,12 +87,11 @@ const Navbar = () => {
           })}
         </nav>
 
-        {/* Right Side: Auth / User Action Controls */}
+        {/* Right side controls */}
         <div className="flex items-center gap-3">
           {isPending ? (
             <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
           ) : !user ? (
-            /* Unauthenticated State Buttons */
             <div className="flex items-center gap-2">
               <Link href="/login" className="text-sm font-semibold text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-full transition">
                 Login
@@ -110,7 +101,6 @@ const Navbar = () => {
               </Link>
             </div>
           ) : (
-            /* Authenticated Dropdown Control */
             <div className="relative">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -128,7 +118,7 @@ const Navbar = () => {
                 <BiChevronDown className={`text-gray-400 text-base transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`} />
               </button>
 
-              {/* User Dropdown Box Menu */}
+              {/* Desktop Dropdown */}
               <AnimatePresence>
                 {isDropdownOpen && (
                   <>
@@ -178,19 +168,17 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* 📱 Mobile Drawer/Overlay Navigation Menu */}
+      {/* ✅ FIXED: 📱 Mobile Drawer with Profile & Logout controls */}
       <AnimatePresence>
         {isMobileOpen && (
           <>
-            {/* ব্যাকড্রপ শ্যাডো */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsMobileOpen(false)}
               className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 lg:hidden"
             />
-            {/* মোবাইল ড্রপডাউন মেনু লিস্ট */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -198,6 +186,7 @@ const Navbar = () => {
               transition={{ duration: 0.2 }}
               className="absolute top-16 left-0 right-0 bg-white border-b border-gray-100 p-4 shadow-xl z-40 flex flex-col gap-1 lg:hidden mx-4 rounded-2xl mt-1"
             >
+              {/* মোবাইল ন্যাভ লিংকসমূহ */}
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
@@ -205,16 +194,38 @@ const Navbar = () => {
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsMobileOpen(false)}
-                    className={`px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
-                      isActive
-                        ? "bg-blue-600 text-white"
-                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                    className={`px-4 py-3 rounded-xl text-sm font-bold transition-all ${
+                      isActive ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                     }`}
                   >
                     {link.name}
                   </Link>
                 );
               })}
+
+              {/* মোবাইল ভিউতে ইউজার লগইন থাকলে তার কার্ড এবং লগআউট বাটন */}
+              {user && (
+                <div className="mt-4 pt-4 border-t border-gray-100 px-4">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Avatar size="sm" className="w-10 h-10">
+                      <Avatar.Image src={user?.image ?? undefined} referrerPolicy="no-referrer" />
+                    </Avatar>
+                    <div className="truncate">
+                      <p className="font-bold text-gray-950 text-sm">{user?.name}</p>
+                      <p className="text-xs text-gray-400">{user?.email}</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setIsMobileOpen(false);
+                      handleSignOut();
+                    }}
+                    className="w-full flex items-center justify-center gap-2 py-3 bg-rose-50 text-rose-600 hover:bg-rose-100 rounded-xl text-sm font-bold transition-all"
+                  >
+                    <BiLogOut className="text-lg" /> Logout
+                  </button>
+                </div>
+              )}
             </motion.div>
           </>
         )}
