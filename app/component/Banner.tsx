@@ -97,7 +97,7 @@ const Banner = () => {
 
                   {/* Stats */}
 
-                  <div className="grid grid-cols-3 gap-5 mt-12">
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
 
                     <div className="bg-white rounded-2xl shadow-lg p-5 text-center">
                       <FaBookOpen className="text-3xl text-blue-600 mx-auto mb-3" />

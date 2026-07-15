@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import { DeleteModal } from "../component/DeleteModal";
 
-// FIXED: Define Book interface for proper TypeScript validation
 interface Book {
   _id: string;
   title: string;
@@ -14,106 +13,75 @@ interface Book {
 }
 
 const ManageItem = async () => {
-  // Fetching data from API
   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/addBook`, {
     cache: "no-store",
   });
   
-  // FIXED: Explicitly typecast the array of books
+  if (!res.ok) {
+    return <div className="text-center py-12 text-red-500 font-semibold">Failed to load data.</div>;
+  }
+
   const books: Book[] = await res.json();
 
   return (
-    <div className="max-w-7xl mx-auto px-5 py-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">Manage Items</h1>
-        <p className="text-gray-500 font-medium">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 font-sans">
+      
+      {/* হেডার অংশ */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">Manage Items</h1>
+          <p className="text-xs sm:text-sm text-gray-500 mt-1">Manage and organize all the uploaded books.</p>
+        </div>
+        <div className="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-xs sm:text-sm font-bold border border-gray-200">
           Total Books: {books?.length || 0}
-        </p>
+        </div>
       </div>
 
-      <div className="overflow-x-auto bg-white rounded-2xl shadow-md border border-gray-100">
-        <table className="table w-full text-left border-collapse">
-          {/* Table Head */}
-          <thead className="bg-gray-50 border-b border-gray-100 text-gray-700 text-sm">
+      {/* 💻 ডেস্কটপ এবং বড় স্ক্রিনের জন্য টেবিল ভিউ (Hidden on Mobile, Visible on LG screens) */}
+      <div className="hidden lg:block overflow-hidden bg-white rounded-2xl shadow-sm border border-gray-200">
+        <table className="w-full text-left border-collapse">
+          <thead className="bg-gray-50 border-b border-gray-200 text-gray-700 text-sm uppercase tracking-wider">
             <tr>
-              <th className="p-4 font-semibold">Book Title</th>
-              <th className="p-4 font-semibold">Author</th>
-              <th className="p-4 font-semibold hidden md:table-cell">
-                Category
-              </th>
-              <th className="p-4 font-semibold hidden sm:table-cell">
-                Uploader
-              </th>
-              <th className="p-4 font-semibold text-center">Actions</th>
+              <th className="p-4 font-bold">Book Info</th>
+              <th className="p-4 font-bold">Author</th>
+              <th className="p-4 font-bold">Category</th>
+              <th className="p-4 font-bold">Uploader</th>
+              <th className="p-4 font-bold text-center">Actions</th>
             </tr>
           </thead>
-
-          {/* Table Body */}
-          <tbody className="divide-y divide-gray-50 text-gray-700">
+          <tbody className="divide-y divide-gray-150 text-gray-700 text-sm">
             {books?.map((book) => (
-              <tr
-                key={book._id}
-                className="hover:bg-gray-50/80 transition-colors"
-              >
-                {/* Title & Image */}
+              <tr key={book._id} className="hover:bg-gray-50/50 transition-colors">
                 <td className="p-4">
                   <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle w-12 h-12 relative bg-gray-100">
-                        <img
-                          src={book.image}
-                          alt={book.title}
-                          className="object-cover w-full h-full"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="font-bold text-gray-900 line-clamp-1">
-                        {book.title}
-                      </div>
-                      <div className="text-xs text-gray-400 sm:hidden">
-                        By {book.author}
-                      </div>
+                    <img
+                      src={book.image || "https://placehold.co/100x100?text=📚"}
+                      alt={book.title}
+                      className="object-cover w-12 h-12 rounded-xl border border-gray-100 flex-shrink-0"
+                    />
+                    <div className="max-w-[280px] truncate font-bold text-gray-950" title={book.title}>
+                      {book.title}
                     </div>
                   </div>
-                  {/* FIXED: Removed the accidental 'ui' text from here */}
                 </td>
-
-                {/* Author */}
-                <td className="p-4 font-medium text-gray-600">{book.author}</td>
-
-                {/* Category */}
-                <td className="p-4 hidden md:table-cell">
-                  <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-blue-50 text-blue-600">
+                <td className="p-4 font-medium text-gray-650">{book.author}</td>
+                <td className="p-4">
+                  <span className="px-2.5 py-1 text-xs font-bold rounded-lg bg-blue-50 text-blue-600 border border-blue-100/50 capitalize">
                     {book.category}
                   </span>
                 </td>
-
-                {/* Uploader info */}
-                <td className="p-4 hidden sm:table-cell">
-                  <div className="text-sm font-medium">{book.userName}</div>
+                <td className="p-4">
+                  <div className="font-semibold text-gray-800">{book.userName}</div>
                   <div className="text-xs text-gray-400">{book.userEmail}</div>
                 </td>
-
-                {/* Edit / Delete Action Buttons */}
-                <td className="p-4">
+                <td className="p-4 text-center">
                   <div className="flex items-center justify-center gap-2">
-                    {/* View Button */}
                     <Link
                       href={`/explore/${book._id}`}
-                      className="btn btn-sm bg-blue-50 hover:bg-blue-100 border-none text-blue-600 font-medium normal-case px-4 rounded-xl"
+                      className="px-4 py-2 text-xs font-bold rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-100 transition-all"
                     >
                       View
                     </Link>
-                    {/* Edit Button */}
-                    {/* <Link
-                      href={`/manage-items/edit/${book._id}`}
-                      className="btn btn-sm bg-amber-50 hover:bg-amber-100 border-none text-amber-700 font-medium normal-case px-4 rounded-xl"
-                    >
-                      Edit
-                    </Link> */}
-
-                    {/* Delete Button */}
                     <DeleteModal book={book} />
                   </div>
                 </td>
@@ -122,6 +90,70 @@ const ManageItem = async () => {
           </tbody>
         </table>
       </div>
+
+      {/* 📱 মোবাইল ও ট্যাবলেটের জন্য রেসপনসিভ কার্ড লেআউট (Visible on Mobile, Hidden on LG screens) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:hidden">
+        {books?.map((book) => (
+          <div 
+            key={book._id} 
+            className="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 flex flex-col justify-between gap-4 hover:shadow-md transition-shadow"
+          >
+            {/* বইয়ের মেইন ইনফো */}
+            <div className="flex gap-4">
+              <img
+                src={book.image || "https://placehold.co/100x100?text=📚"}
+                alt={book.title}
+                className="w-16 h-20 object-cover rounded-xl border border-gray-100 flex-shrink-0"
+              />
+              <div className="flex-1 min-w-0">
+                <h3 className="font-bold text-base text-gray-900 truncate" title={book.title}>
+                  {book.title}
+                </h3>
+                <p className="text-xs text-gray-500 mt-0.5 font-medium">By {book.author}</p>
+                <div className="mt-2">
+                  <span className="px-2 py-0.5 text-[11px] font-bold rounded-md bg-blue-50 text-blue-600 border border-blue-100 capitalize inline-block">
+                    {book.category}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* আপলোডার ইনফো */}
+            <div className="bg-gray-50 p-3 rounded-xl text-xs border border-gray-100">
+              <div className="text-gray-400 font-medium">Uploaded By:</div>
+              <div className="font-semibold text-gray-800 truncate mt-0.5">{book.userName}</div>
+              <div className="text-gray-500 truncate">{book.userEmail}</div>
+            </div>
+
+            {/* অ্যাকশন বাটনসমূহ */}
+            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-gray-100">
+              <Link
+                href={`/explore/${book._id}`}
+                className="w-full py-2.5 text-xs font-bold text-center rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-100 transition-colors"
+              >
+                View Details
+              </Link>
+              <div className="w-full flex justify-end">
+                {/* DeleteModal বাটনটি যাতে কার্ডের পুরো জায়গা ব্লক না করে */}
+                <div className="w-full [&>button]:w-full text-center">
+                  <DeleteModal book={book} />
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      
+      {(!books || books.length === 0) && (
+        <div className="text-center py-16 bg-white border border-gray-200 rounded-2xl shadow-sm">
+          <span className="text-4xl">📥</span>
+          <p className="text-gray-500 text-base mt-2 font-medium">
+            No items found in your store database.
+          </p>
+        </div>
+      )}
+
     </div>
   );
 };
