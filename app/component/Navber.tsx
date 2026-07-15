@@ -186,7 +186,7 @@ const Navbar = () => {
               transition={{ duration: 0.2 }}
               className="absolute top-16 left-0 right-0 bg-white border-b border-gray-100 p-4 shadow-xl z-40 flex flex-col gap-1 lg:hidden mx-4 rounded-2xl mt-1"
             >
-              {/* মোবাইল ন্যাভ লিংকসমূহ */}
+            
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
@@ -203,7 +203,7 @@ const Navbar = () => {
                 );
               })}
 
-              {/* মোবাইল ভিউতে ইউজার লগইন থাকলে তার কার্ড এবং লগআউট বাটন */}
+              
               {user && (
                 <div className="mt-4 pt-4 border-t border-gray-100 px-4">
                   <div className="flex items-center gap-3 mb-4">
